@@ -1,5 +1,6 @@
 // IntList.c - Implementation of the IntList ADT
 // Lists of integers
+// Made and Edited by Kevin Edbert Sutandi (z5352065)
 
 #include <assert.h>
 #include <err.h>
@@ -112,18 +113,18 @@ void IntListInsertInOrder(IntList l, int v) {
 	// TODO: Task 1 - Implement this function
 
 												
-	struct IntListNode *n = newIntListNode(v);	// Create new value as a node
+	struct IntListNode *n = newIntListNode(v);	        // Create new value as a node
 
-	if (l->size == 0) {						// If List is empty assign first and last to be the node
+	if (l->size == 0) {						            // If List is empty assign first and last to be the node
 		l->first = l->last = n;
-	} else if (v <= l->first->data) { 		// Scenario where the value v is the smallest
-		n->next = l->first; 				// Move the current first node into the second node position
-		l->first = n;						// First node becomes the new value	
-	} else if (v >= l->last->data)	{ 		// Scenario where the value v is the largest
-		l->last->next = n;					// Place the value after the last node
+	} else if (v <= l->first->data) { 		            // Scenario where the value v is the smallest
+		n->next = l->first; 				            // Move the current first node into the second node position
+		l->first = n;						            // First node becomes the new value	
+	} else if (v >= l->last->data)	{ 		            // Scenario where the value v is the largest
+		l->last->next = n;					            // Place the value after the last node
 		l->last = n;
 	} else {
-		for (struct IntListNode *counter = l->first; 
+		for (struct IntListNode *counter = l->first;    // Scenario where the value v is in between the smallest and largest
 		counter != NULL; counter = counter->next) {
 			if (v <= counter->next->data) {
 				n->next = counter->next;
@@ -132,7 +133,7 @@ void IntListInsertInOrder(IntList l, int v) {
 			}
 		}
 	}
-	l->size++;  								// Increase the size by 1 as adding one more node
+	l->size++;  							            // Increase the size by 1 as adding one more node
 
 }
 
@@ -162,7 +163,8 @@ IntList IntListSortedCopy(IntList l) {
 	// TODO: Task 2 - Implement this function
 	// Note: You *must* use IntListInsertInOrder
 	IntList NewSorted = IntListNew();
-	for (struct IntListNode *sort = l->first; sort != NULL; sort = sort->next) {
+	for (struct IntListNode *sort = l->first; 
+    sort != NULL; sort = sort->next) {
 		IntListInsertInOrder(NewSorted, sort->data);
 	}
 	// TODO: Replace this with your return value
