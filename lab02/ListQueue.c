@@ -19,6 +19,8 @@ struct queue {
 	int  size;
 };
 
+
+
 /**
  * Creates a new empty queue
  */
@@ -52,7 +54,19 @@ void QueueFree(Queue q) {
  * Adds an item to the end of the queue
  */
 void QueueEnqueue(Queue q, Item it) {
-	// TODO
+	Node new = malloc(sizeof(*new));
+	new->item = it;
+	new->next = NULL;
+
+	if (q->size == 0) {
+		q->head = new;
+	} else {
+		q->tail->next = new;
+	}
+	
+	
+	q->tail = new;
+	q->size++;
 }
 
 /**
@@ -60,8 +74,14 @@ void QueueEnqueue(Queue q, Item it) {
  * Assumes that the queue is not empty
  */
 Item QueueDequeue(Queue q) {
-	// TODO
-	return 0;
+	Node newHead = q->head->next;
+	Item rmItem = q->head->item;
+
+	free(q->head);
+	q->head = newHead;
+	q->size--;
+
+	return rmItem;
 }
 
 /**

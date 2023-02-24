@@ -132,11 +132,39 @@ static void testQueue4(void) {
 }
 
 static void testQueue5(void) {
-	// TODO: For you to test your CircularArrayQueue
+	// FOR TESTING WITH CIRCULAR ARRAY
 
 	printf("Test 5...\n");
-	printf("This is left blank for you to add your own test.\n");
 
-	// printf("Passed!\n");
+Queue q = QueueNew();
+
+	// enqueue 1 to 8
+	for (int i = 1; i <= 8; i++) {
+		QueueEnqueue(q, i);
+		assert(QueueSize(q) == i);
+	}
+
+	// dequeue 1 to 7
+	for (int j = 1; j <= 7; j++) {
+		assert(QueueDequeue(q) == j);
+	}
+
+	// enqueue 1 to 3
+	for (int i = 1; i <= 7; i++) {
+		QueueEnqueue(q, i+8);
+	}
+  
+  assert(QueueSize(q) == 8);
+  assert(QueueFront(q) == 8);
+
+  // Dequeue 1
+  assert(QueueDequeue(q) == 8);
+  assert(QueueSize(q) == 7);
+  assert(QueueFront(q) == 9);
+  
+	QueueFree(q);
+
+	printf("Passed!\n");
+
 }
 

@@ -16,6 +16,9 @@ struct queue {
 	int frontIndex;
 };
 
+static void increaseCapacity(Queue q);
+
+
 /**
  * Creates a new empty queue
  */
@@ -39,6 +42,25 @@ Queue QueueNew(void) {
 }
 
 /**
+ * Doubles the capacity of the queue
+ */
+static void increaseCapacity(Queue q) {
+  q->capacity = q->capacity * 2; 
+	q->items = realloc(q->items, q->capacity * sizeof(Item));
+	if (q->items == NULL) {
+		fprintf(stderr, "couldn't resize Queue\n");
+		exit(EXIT_FAILURE);
+	}
+
+  // Move all the elements from the available cap  
+  for (int counter = 0; counter < q->frontIndex; counter++) {
+    q->items[q->capacity + counter] = q->items[counter];
+  }
+
+}
+
+
+/**
  * Frees all resources associated with the given queue
  */
 void QueueFree(Queue q) {
@@ -50,7 +72,12 @@ void QueueFree(Queue q) {
  * Adds an item to the end of the queue
  */
 void QueueEnqueue(Queue q, Item it) {
-	// TODO
+	if (q->size == q->capacity) {
+		increaseCapacity(q);
+
+	}
+	q->items[(q->frontIndex + q->size) % q->capacity] = it;
+	q->size++;
 }
 
 /**
@@ -58,8 +85,10 @@ void QueueEnqueue(Queue q, Item it) {
  * Assumes that the queue is not empty
  */
 Item QueueDequeue(Queue q) {
-	// TODO
-	return 0;
+	Item front = q->items[q->frontIndex];
+	q->frontIndex = (q->frontIndex + 1) % q->capacity;
+	q->size--;
+	return front;
 }
 
 /**
@@ -100,6 +129,7 @@ void QueueDump(Queue q, FILE *fp) {
  * Prints out information for debugging
  */
 void QueueDebugPrint(Queue q) {
-
+    printf("Front Index is: %d \n", q->frontIndex);
+    printf("Capacity is: %d \n", q->capacity);
+    
 }
-

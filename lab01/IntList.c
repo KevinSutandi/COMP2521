@@ -111,8 +111,7 @@ static struct IntListNode *newIntListNode(int v) {
  */
 void IntListInsertInOrder(IntList l, int v) {
 	// TODO: Task 1 - Implement this function
-
-												
+											
 	struct IntListNode *n = newIntListNode(v);	        // Create new value as a node
 
 	if (l->size == 0) {						            // If List is empty assign first and last to be the node
@@ -162,7 +161,7 @@ IntList IntListCopy(IntList l) {
 IntList IntListSortedCopy(IntList l) {
 	// TODO: Task 2 - Implement this function
 	// Note: You *must* use IntListInsertInOrder
-	IntList NewSorted = IntListNew();
+	IntList NewSorted = IntListNew();					
 	for (struct IntListNode *sort = l->first; 
     sort != NULL; sort = sort->next) {
 		IntListInsertInOrder(NewSorted, sort->data);
