@@ -52,13 +52,11 @@ static void increaseCapacity(Queue q) {
 		exit(EXIT_FAILURE);
 	}
 
-  // Move all the elements from the available cap  
+  // Move all the elements from the first half to the second half
   for (int counter = 0; counter < q->frontIndex; counter++) {
     q->items[q->capacity + counter] = q->items[counter];
   }
-
 }
-
 
 /**
  * Frees all resources associated with the given queue
@@ -72,12 +70,11 @@ void QueueFree(Queue q) {
  * Adds an item to the end of the queue
  */
 void QueueEnqueue(Queue q, Item it) {
-	if (q->size == q->capacity) {
-		increaseCapacity(q);
-
+	if (q->size == q->capacity) {   // If queue is full increase capacity
+		increaseCapacity(q);       
 	}
-	q->items[(q->frontIndex + q->size) % q->capacity] = it;
-	q->size++;
+	q->items[(q->frontIndex + q->size) % q->capacity] = it; // Add to queue
+	q->size++;                                              
 }
 
 /**
@@ -85,8 +82,8 @@ void QueueEnqueue(Queue q, Item it) {
  * Assumes that the queue is not empty
  */
 Item QueueDequeue(Queue q) {
-	Item front = q->items[q->frontIndex];
-	q->frontIndex = (q->frontIndex + 1) % q->capacity;
+	Item front = q->items[q->frontIndex];               // Get front item
+	q->frontIndex = (q->frontIndex + 1) % q->capacity;  // set new front index
 	q->size--;
 	return front;
 }
@@ -97,7 +94,6 @@ Item QueueDequeue(Queue q) {
  */
 Item QueueFront(Queue q) {
 	assert(q->size > 0);
-
 	return q->items[q->frontIndex];
 }
 

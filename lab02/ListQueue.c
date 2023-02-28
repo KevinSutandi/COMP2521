@@ -54,16 +54,15 @@ void QueueFree(Queue q) {
  * Adds an item to the end of the queue
  */
 void QueueEnqueue(Queue q, Item it) {
-	Node new = malloc(sizeof(*new));
+	Node new = malloc(sizeof(*new));   // Create it as new node
 	new->item = it;
 	new->next = NULL;
 
-	if (q->size == 0) {
+	if (q->size == 0) { //Case for empty queue
 		q->head = new;
-	} else {
+	} else {            // Case for non-empty queue
 		q->tail->next = new;
 	}
-	
 	
 	q->tail = new;
 	q->size++;
@@ -74,14 +73,14 @@ void QueueEnqueue(Queue q, Item it) {
  * Assumes that the queue is not empty
  */
 Item QueueDequeue(Queue q) {
-	Node newHead = q->head->next;
-	Item rmItem = q->head->item;
+	Node newHead = q->head->next;   // copy queue after first item
+	Item rmItem = q->head->item;    // copy first item
 
-	free(q->head);
-	q->head = newHead;
+	free(q->head);                  // remove first item
+	q->head = newHead;              // first item is now after first item
 	q->size--;
 
-	return rmItem;
+	return rmItem;                  
 }
 
 /**
