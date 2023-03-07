@@ -1,0 +1,9 @@
+Allocate memory for the new node - This operation takes constant time and has a time complexity of O(1).
+
+Assign values to the new node - This operation takes constant time and has a time complexity of O(1).
+
+Check if the queue is empty - This operation takes constant time and has a time complexity of O(1).
+
+Update the head and tail pointers - This operation takes constant time and has a time complexity of O(1).
+
+Increase the size of the queue - This operation takes constant time and has a time complexity of O(1).

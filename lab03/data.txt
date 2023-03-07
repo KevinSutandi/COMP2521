@@ -1,0 +1,38 @@
+
+Input size: 10000, Order: random, Program: ./sortIntList
+
+Input size: 10000, Order: random, Program: sort -n
+
+Input size: 10000, Order: sorted, Program: ./sortIntList
+
+Input size: 10000, Order: sorted, Program: sort -n
+
+Input size: 10000, Order: reverse, Program: ./sortIntList
+
+Input size: 10000, Order: reverse, Program: sort -n
+
+Input size: 20000, Order: random, Program: ./sortIntList
+
+Input size: 20000, Order: random, Program: sort -n
+
+Input size: 20000, Order: sorted, Program: ./sortIntList
+
+Input size: 20000, Order: sorted, Program: sort -n
+
+Input size: 20000, Order: reverse, Program: ./sortIntList
+
+Input size: 20000, Order: reverse, Program: sort -n
+
+Input size: 40000, Order: random, Program: ./sortIntList
+
+Input size: 40000, Order: random, Program: sort -n
+
+Input size: 40000, Order: sorted, Program: ./sortIntList
+
+Input size: 40000, Order: sorted, Program: sort -n
+
+Input size: 40000, Order: reverse, Program: ./sortIntList
+
+Input size: 40000, Order: reverse, Program: sort -n
+
+Input size: 60000, Order: random, Program: ./sortIntList

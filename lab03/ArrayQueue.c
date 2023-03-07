@@ -1,4 +1,6 @@
-// Implementation of the Queue ADT using a linked list
+// Implementation of the Queue ADT using an array
+
+// !!! DO NOT MODIFY THIS FILE !!!
 
 #include <assert.h>
 #include <stdio.h>
@@ -6,18 +8,15 @@
 
 #include "Queue.h"
 
-// DO NOT modify these structs
-typedef struct node *Node;
-struct node {
-	Item item;
-	Node next;
-};
+#define DEFAULT_SIZE 8 // DO NOT change this line
 
 struct queue {
-	Node head;
-	Node tail;
-	int  size;
+	Item *items;
+	int size;
+	int capacity;
 };
+
+static void increaseCapacity(Queue q);
 
 /**
  * Creates a new empty queue
@@ -29,9 +28,14 @@ Queue QueueNew(void) {
 		exit(EXIT_FAILURE);
 	}
 
-	q->head = NULL;
-	q->tail = NULL;
+	q->items = malloc(DEFAULT_SIZE * sizeof(Item));
+	if (q->items == NULL) {
+		fprintf(stderr, "couldn't allocate Queue\n");
+		exit(EXIT_FAILURE);
+	}
+
 	q->size = 0;
+	q->capacity = DEFAULT_SIZE;
 	return q;
 }
 
@@ -39,12 +43,7 @@ Queue QueueNew(void) {
  * Frees all resources associated with the given queue
  */
 void QueueFree(Queue q) {
-	Node curr = q->head;
-	while (curr != NULL) {
-		Node temp = curr;
-		curr = curr->next;
-		free(temp);
-	}
+	free(q->items);
 	free(q);
 }
 
@@ -52,18 +51,23 @@ void QueueFree(Queue q) {
  * Adds an item to the end of the queue
  */
 void QueueEnqueue(Queue q, Item it) {
-	Node new = malloc(sizeof(*new));   // Create it as new node
-	new->item = it;
-	new->next = NULL;
-
-	if (q->size == 0) { //Case for empty queue
-		q->head = new;
-	} else {            // Case for non-empty queue
-		q->tail->next = new;
+	if (q->size == q->capacity) {
+		increaseCapacity(q);
 	}
-	
-	q->tail = new;
-	q->size++;
+
+	q->items[q->size++] = it;
+}
+
+/**
+ * Doubles the capacity of the queue
+ */
+static void increaseCapacity(Queue q) {
+	q->capacity *= 2;
+	q->items = realloc(q->items, q->capacity * sizeof(Item));
+	if (q->items == NULL) {
+		fprintf(stderr, "couldn't resize Queue\n");
+		exit(EXIT_FAILURE);
+	}
 }
 
 /**
@@ -71,14 +75,14 @@ void QueueEnqueue(Queue q, Item it) {
  * Assumes that the queue is not empty
  */
 Item QueueDequeue(Queue q) {
-	Node newHead = q->head->next;   // copy queue after first item
-	Item rmItem = q->head->item;    // copy first item
+	assert(q->size > 0);
 
-	free(q->head);                  // remove first item
-	q->head = newHead;              // first item is now after first item
+	Item it = q->items[0];
+	for (int i = 1; i < q->size; i++) {
+		q->items[i - 1] = q->items[i];
+	}
 	q->size--;
-
-	return rmItem;                  
+	return it;
 }
 
 /**
@@ -88,7 +92,7 @@ Item QueueDequeue(Queue q) {
 Item QueueFront(Queue q) {
 	assert(q->size > 0);
 
-	return q->head->item;
+	return q->items[0];
 }
 
 /**
@@ -109,8 +113,8 @@ bool QueueIsEmpty(Queue q) {
  * Prints the items in the queue to the given file with items space-separated
  */
 void QueueDump(Queue q, FILE *fp) {
-	for (Node curr = q->head; curr != NULL; curr = curr->next) {
-		fprintf(fp, "%d ", curr->item);
+	for (int i = 0; i < q->size; i++) {
+		fprintf(fp, "%d ", q->items[i]);
 	}
 	fprintf(fp, "\n");
 }
@@ -119,6 +123,6 @@ void QueueDump(Queue q, FILE *fp) {
  * Prints out information for debugging
  */
 void QueueDebugPrint(Queue q) {
-
+	
 }
 
